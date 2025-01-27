@@ -56,7 +56,7 @@ def force_commit_if_modified():
 # datascraping
 def scrape_data():
     driver = webdriver.Chrome(service=service, options=chrome_options)
-    url = "https://www.livescore.com/en/football/saudi-arabia/saudi-professional-league/table/"
+    url = "https://www.livescore.com/en/football/europa-league/league-stage/table/"
     driver.get(url)
     driver.implicitly_wait(20)
 
