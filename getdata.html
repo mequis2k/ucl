@@ -21,11 +21,11 @@
       content="UCL, Champions League, Twitter, tt.pileczka, tt.piłeczka, score, live, pairs, Barcelona, Real Madrid, draw"
     />
     <meta name="author" content="m3quis" />
-
     <title>Created by: m3quis</title>
+
     <link
       rel="stylesheet"
-      href="./style.css"
+      href="./style.css?v=<?= new Date().getTime() ?>"
       id="style-link"
     />
     <link
@@ -61,7 +61,6 @@
         const title1 = `${selectedTeam} - next phase.`;
         const title2 = 'Created by: m3quis';
         let toggle = true;
-
         // odstepy czasu w milisekundach do zmiany tytulu
         setInterval(() => {
           document.title = toggle ? title1 : title2;
@@ -74,9 +73,10 @@
             window.location.reload();
           });
         // zbieranie danych
-        fetch('./teams_data.json', {
-          method: 'HEAD',
-        })
+        fetch(
+          './teams_data.json?v=' + new Date().getTime(),
+          { method: 'HEAD' }
+        )
           .then((response) => {
             const lastModified =
               response.headers.get('Last-Modified');
@@ -94,8 +94,6 @@
                 second: '2-digit',
                 hour12: false,
               })}`;
-
-              // modyfikacja jako wersja
               const versionedCssUrl = `./style.css?v=${new Date(
                 lastModified
               ).getTime()}`;
@@ -106,8 +104,6 @@
               const versionedJsonUrl = `./teams_data.json?v=${new Date(
                 lastModified
               ).getTime()}`;
-
-              // fetchowanie z wersjonowanym
               fetch(versionedJsonUrl)
                 .then((response) => response.json())
                 .then((teams) => {
@@ -224,10 +220,6 @@
                         break;
                     }
 
-                    console.log(
-                      'Next teams positions:',
-                      nextTeams
-                    );
                     teamNameWrapper.innerHTML = '';
 
                     nextTeams.forEach((pos) => {
