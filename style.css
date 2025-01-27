@@ -32,6 +32,20 @@
   font-size: 5vh;
   font-weight: normal;
 }
+#refreshButton {
+  color: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  outline: none;
+  margin-bottom: 2vh;
+  padding: 0.5vh;
+  border-radius: 1vh;
+  transition: 0.2s;
+}
+#refreshButton:hover {
+  color: white;
+  border: 1px solid white;
+  transform: scale(1.1);
+}
 .team_name {
   margin-top: 3vh;
 }
@@ -40,14 +54,14 @@
 }
 .lastModified {
   color: rgba(255, 255, 255, 0.25);
-  transition: 0.3s;
+  transition: 0.2s;
   margin-bottom: 2vh;
 }
 .support {
   color: rgba(255, 255, 255, 0.25);
   margin-top: 5vh;
   cursor: pointer;
-  transition: .2s;
+  transition: 0.2s;
 }
 .contact {
   margin-top: 2vh;
@@ -56,11 +70,11 @@
 }
 .contact p {
   color: rgba(255, 255, 255, 0.25);
-  transition: .2s;
+  transition: 0.2s;
   cursor: pointer;
 }
 .lastModified:hover,
 .support:hover,
-.contact>p:hover {
+.contact > p:hover {
   color: white;
 }
