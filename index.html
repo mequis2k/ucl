@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Choose your team!</title>
+    <link rel="stylesheet" href="./style1.css" />
+    <link
+      rel="shortcut icon"
+      href="./images/ucl.png"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <form
+        id="teamsForm"
+        action="./getdata.html"
+        method="GET"
+      ></form>
+    </div>
+
+    <script>
+      // update tytulu
+      const title1 = `Choose your team!`;
+      const title2 = 'Created by: m3quis';
+      let toggle = true;
+
+      // odstepy czasu w milisekundach do zmiany tytulu
+      setInterval(() => {
+        document.title = toggle ? title1 : title2;
+        toggle = !toggle;
+      }, 2000);
+
+      const filePath = './pythonProject1/teams_data.json';
+
+      // zbieranie danych
+      async function fetchTeamData() {
+        try {
+          const response = await fetch(filePath);
+          if (!response.ok) {
+            throw new Error('Plik JSON nie istnieje.');
+          }
+
+          const teams = await response.json();
+
+          const form = document.getElementById('teamsForm');
+          if (teams && Array.isArray(teams)) {
+            // tworzenie przyciskow
+            teams.forEach((team) => {
+              const button =
+                document.createElement('button');
+              button.type = 'submit';
+              button.name = 'teamname';
+              button.value = team.team_name;
+              button.textContent = team.team_name;
+              form.appendChild(button);
+              form.appendChild(
+                document.createElement('br')
+              );
+            });
+          } else {
+            // blad danych z json
+            alert(
+              'Błąd: Nie udało się zdekodować danych JSON.'
+            );
+          }
+        } catch (error) {
+          console.error(error);
+          alert(error.message);
+        }
+      }
+      fetchTeamData();
+    </script>
+  </body>
+</html>

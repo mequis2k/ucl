@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #121212;
+  color: white;
+  cursor: default;
+}
+.wrapper {
+  height: 100vh;
+  width: 80vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+}
+#information {
+  font-size: 4vh;
+  font-weight: bold;
+}
+#information-h2 {
+  margin-top: 5vh;
+  font-size: 4vh;
+  font-weight: bold;
+}
+#team-name-wrapper {
+  margin-top: 5vh;
+  font-size: 5vh;
+  font-weight: normal;
+}
+.team_name {
+  margin-top: 3vh;
+}
+.team_name:first-child {
+  margin-top: 0;
+}
+.lastModified {
+  color: rgba(255, 255, 255, 0.25);
+  transition: 0.3s;
+  margin-bottom: 2vh;
+}
+.support {
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 5vh;
+  cursor: pointer;
+  transition: .2s;
+}
+.contact {
+  margin-top: 2vh;
+  height: 5vh;
+  text-decoration: none;
+}
+.contact p {
+  color: rgba(255, 255, 255, 0.25);
+  transition: .2s;
+  cursor: pointer;
+}
+.lastModified:hover,
+.support:hover,
+.contact>p:hover {
+  color: white;
+}
