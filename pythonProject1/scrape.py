@@ -45,6 +45,8 @@ def scrape_data():
     data_sorted = sorted(data, key=lambda x: x['team_name'])
     with open(file_path, "w") as file:
         json.dump(data_sorted, file)
+    with open(file_path, "a") as file:
+        file.write("\n")
     print(f"Dane zostały zapisane do pliku: {file_path}")
 
 # loop co 60 sek
