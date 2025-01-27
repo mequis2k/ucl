@@ -7,7 +7,11 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Created by: m3quis</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="./style.css"
+      id="style-link"
+    />
     <link
       rel="shortcut icon"
       href="./images/ucl.png"
@@ -68,140 +72,174 @@
                 second: '2-digit',
                 hour12: false,
               })}`;
+
+              // modyfikacja jako wersja
+              const versionedCssUrl = `./style.css?v=${new Date(
+                lastModified
+              ).getTime()}`;
+              const styleLink =
+                document.getElementById('style-link');
+              styleLink.href = versionedCssUrl;
+
+              const versionedJsonUrl = `./teams_data.json?v=${new Date(
+                lastModified
+              ).getTime()}`;
+
+              // fetchowanie z wersjonowanym url
+              fetch(versionedJsonUrl)
+                .then((response) => response.json())
+                .then((teams) => {
+                  console.log(teams);
+                  let position = null;
+
+                  // wyszukiwanie pozycji drużyny
+                  teams.forEach((team) => {
+                    if (team.team_name === selectedTeam) {
+                      position = Number(team.position);
+                    }
+                  });
+
+                  if (position === null) {
+                    document.getElementById(
+                      'information'
+                    ).textContent = 'Team not found.';
+                    return;
+                  }
+
+                  const information =
+                    document.getElementById('information');
+                  const informationH2 =
+                    document.getElementById(
+                      'information-h2'
+                    );
+                  const teamNameWrapper =
+                    document.getElementById(
+                      'team-name-wrapper'
+                    );
+
+                  if (position >= 1 && position <= 8) {
+                    information.textContent =
+                      'Next phase: Round of 16.';
+                    informationH2.textContent = `${selectedTeam} - Next round's possible teams:`;
+                  } else if (
+                    position >= 9 &&
+                    position <= 24
+                  ) {
+                    information.textContent =
+                      'Next phase: Knockout phase play-offs.';
+                    informationH2.textContent = `${selectedTeam} - Next round's possible teams:`;
+                  } else {
+                    information.textContent =
+                      'Your team does not qualify for the next phase at this moment.';
+                    return;
+                  }
+
+                  if (position <= 24) {
+                    let nextTeams = [];
+                    switch (position) {
+                      case 1:
+                      case 2:
+                        nextTeams = [
+                          '15',
+                          '16',
+                          '17',
+                          '18',
+                        ];
+                        break;
+                      case 3:
+                      case 4:
+                        nextTeams = [
+                          '13',
+                          '14',
+                          '19',
+                          '20',
+                        ];
+                        break;
+                      case 5:
+                      case 6:
+                        nextTeams = [
+                          '11',
+                          '12',
+                          '21',
+                          '22',
+                        ];
+                        break;
+                      case 7:
+                      case 8:
+                        nextTeams = ['9', '10', '23', '24'];
+                        break;
+                      case 9:
+                      case 10:
+                        nextTeams = ['23', '24'];
+                        break;
+                      case 11:
+                      case 12:
+                        nextTeams = ['21', '22'];
+                        break;
+                      case 13:
+                      case 14:
+                        nextTeams = ['19', '20'];
+                        break;
+                      case 15:
+                      case 16:
+                        nextTeams = ['17', '18'];
+                        break;
+                      case 17:
+                      case 18:
+                        nextTeams = ['15', '16'];
+                        break;
+                      case 19:
+                      case 20:
+                        nextTeams = ['13', '14'];
+                        break;
+                      case 21:
+                      case 22:
+                        nextTeams = ['11', '12'];
+                        break;
+                      case 23:
+                      case 24:
+                        nextTeams = ['9', '10'];
+                        break;
+                    }
+
+                    console.log(
+                      'Next teams positions:',
+                      nextTeams
+                    );
+                    teamNameWrapper.innerHTML = '';
+
+                    nextTeams.forEach((pos) => {
+                      const matchingTeams = teams.filter(
+                        (team) =>
+                          Number(team.position) ===
+                          Number(pos)
+                      );
+                      matchingTeams.forEach((team) => {
+                        const teamNameElement =
+                          document.createElement('p');
+                        teamNameElement.classList.add(
+                          'team_name'
+                        );
+                        teamNameElement.textContent =
+                          team.team_name;
+                        teamNameWrapper.appendChild(
+                          teamNameElement
+                        );
+                      });
+                    });
+                  }
+                })
+                .catch((error) =>
+                  console.error(
+                    'Error fetching teams data:',
+                    error
+                  )
+                );
             }
           })
           .catch((error) =>
             console.error(
               'Error fetching last modification date:',
-              error
-            )
-          );
-
-        fetch('./teams_data.json')
-          .then((response) => response.json())
-          .then((teams) => {
-            console.log(teams);
-            let position = null;
-
-            // wyszukiwanie pozycji druzyny
-            teams.forEach((team) => {
-              if (team.team_name === selectedTeam) {
-                position = Number(team.position);
-              }
-            });
-
-            if (position === null) {
-              document.getElementById(
-                'information'
-              ).textContent = 'Team not found.';
-              return;
-            }
-
-            const information =
-              document.getElementById('information');
-            const informationH2 = document.getElementById(
-              'information-h2'
-            );
-            const teamNameWrapper = document.getElementById(
-              'team-name-wrapper'
-            );
-
-            if (position >= 1 && position <= 8) {
-              information.textContent =
-                'Next phase: Round of 16.';
-              informationH2.textContent = `${selectedTeam} - Next round's possible teams:`;
-            } else if (position >= 9 && position <= 24) {
-              information.textContent =
-                'Next phase: Knockout phase play-offs.';
-              informationH2.textContent = `${selectedTeam} - Next round's possible teams:`;
-            } else {
-              information.textContent =
-                'Your team does not qualify for the next phase at this moment.';
-              return;
-            }
-
-            if (position <= 24) {
-              let nextTeams = [];
-              switch (position) {
-                case 1:
-                case 2:
-                  nextTeams = ['15', '16', '17', '18'];
-                  break;
-                case 3:
-                case 4:
-                  nextTeams = ['13', '14', '19', '20'];
-                  break;
-                case 5:
-                case 6:
-                  nextTeams = ['11', '12', '21', '22'];
-                  break;
-                case 7:
-                case 8:
-                  nextTeams = ['9', '10', '23', '24'];
-                  break;
-                case 9:
-                case 10:
-                  nextTeams = ['23', '24'];
-                  break;
-                case 11:
-                case 12:
-                  nextTeams = ['21', '22'];
-                  break;
-                case 13:
-                case 14:
-                  nextTeams = ['19', '20'];
-                  break;
-                case 15:
-                case 16:
-                  nextTeams = ['17', '18'];
-                  break;
-                case 17:
-                case 18:
-                  nextTeams = ['15', '16'];
-                  break;
-                case 19:
-                case 20:
-                  nextTeams = ['13', '14'];
-                  break;
-                case 21:
-                case 22:
-                  nextTeams = ['11', '12'];
-                  break;
-                case 23:
-                case 24:
-                  nextTeams = ['9', '10'];
-                  break;
-              }
-
-              console.log(
-                'Next teams positions:',
-                nextTeams
-              );
-              teamNameWrapper.innerHTML = '';
-
-              nextTeams.forEach((pos) => {
-                const matchingTeams = teams.filter(
-                  (team) =>
-                    Number(team.position) === Number(pos)
-                );
-                matchingTeams.forEach((team) => {
-                  const teamNameElement =
-                    document.createElement('p');
-                  teamNameElement.classList.add(
-                    'team_name'
-                  );
-                  teamNameElement.textContent =
-                    team.team_name;
-                  teamNameWrapper.appendChild(
-                    teamNameElement
-                  );
-                });
-              });
-            }
-          })
-          .catch((error) =>
-            console.error(
-              'Error fetching teams data:',
               error
             )
           );
