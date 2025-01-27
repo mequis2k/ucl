@@ -48,7 +48,7 @@
         }, 2000);
 
         // zbieranie danych
-        fetch('./pythonProject1/teams_data.json', {
+        fetch('./teams_data.json', {
           method: 'HEAD',
         })
           .then((response) => {
@@ -77,7 +77,7 @@
             )
           );
 
-        fetch('./pythonProject1/teams_data.json')
+        fetch('./teams_data.json')
           .then((response) => response.json())
           .then((teams) => {
             console.log(teams);

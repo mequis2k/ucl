@@ -41,10 +41,11 @@ def scrape_data():
         driver.quit()
 
     # zapis
+    file_path = "Y:\\xampp\\htdocs\\ucl\\teams_data.json"
     data_sorted = sorted(data, key=lambda x: x['team_name'])
-    with open("teams_data.json", "w") as file:
+    with open(file_path, "w") as file:
         json.dump(data_sorted, file)
-    print("Dane zostały zapisane do pliku teams_data.json.")
+    print(f"Dane zostały zapisane do pliku: {file_path}")
 
 # loop co 60 sek
 while True:
