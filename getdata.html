@@ -12,10 +12,16 @@
     />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <meta name="description" content="This website traces the current position of teams in the UEFA Champions League and calculates the opponents in the next stage of the competition.">
-    <meta name="keywords" content="UCL, Champions League, Twitter, tt.pileczka, tt.piłeczka, score, live, pairs, Barcelona, Real Madrid, draw">
-    <meta name="author" content="m3quis">
-    
+    <meta
+      name="description"
+      content="This website traces the current position of teams in the UEFA Champions League and calculates the opponents in the next stage of the competition."
+    />
+    <meta
+      name="keywords"
+      content="UCL, Champions League, Twitter, tt.pileczka, tt.piłeczka, score, live, pairs, Barcelona, Real Madrid, draw"
+    />
+    <meta name="author" content="m3quis" />
+
     <title>Created by: m3quis</title>
     <link
       rel="stylesheet"
@@ -31,6 +37,7 @@
 
   <body>
     <div class="wrapper">
+      <button id="refreshButton">Odśwież stronę</button>
       <p class="lastModified"></p>
       <h1 id="information"></h1>
       <h2 id="information-h2"></h2>
@@ -60,7 +67,12 @@
           document.title = toggle ? title1 : title2;
           toggle = !toggle;
         }, 2000);
-
+        // refresh btn
+        document
+          .getElementById('refreshButton')
+          .addEventListener('click', function () {
+            window.location.reload();
+          });
         // zbieranie danych
         fetch('./teams_data.json', {
           method: 'HEAD',
