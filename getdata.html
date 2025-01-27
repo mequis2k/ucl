@@ -69,11 +69,24 @@
         // update tytulu
         const title1 = `${selectedTeam} - next phase.`;
         const title2 = 'Created by: m3quis';
-        let toggle = true;
+        const title3 = 'ko-fi.com/mequis2k';
+
+        let toggle = 0; // start with 0 to toggle between 3 titles
+
         // odstepy czasu w milisekundach do zmiany tytulu
         setInterval(() => {
-          document.title = toggle ? title1 : title2;
-          toggle = !toggle;
+          switch (toggle) {
+            case 0:
+              document.title = title1;
+              break;
+            case 1:
+              document.title = title2;
+              break;
+            case 2:
+              document.title = title3;
+              break;
+          }
+          toggle = (toggle + 1) % 3; // move between 0, 1, 2
         }, 2000);
         // refresh btn
         document
