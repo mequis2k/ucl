@@ -66,16 +66,17 @@ def scrape_data():
     try:
         rows_with_wv = driver.find_elements(By.XPATH, "//tr[.//td[contains(@class, 'wv')]]")
         if rows_with_wv:
-            print("Znalezione wiersze z wartością wv:")
+            # wv - klasa <td> które zawiera dane o zespole
+            print("Znalezione wv:")
             for row in rows_with_wv:
                 try:
                     wv_value = row.find_element(By.XPATH, ".//td[contains(@class, 'wv')]").text
                     team_name = row.find_element(By.XPATH, ".//td[contains(@class, 'Zg')]//a").text
                     data.append({"position": wv_value, "team_name": team_name})
                 except Exception as e:
-                    print(f"Błąd podczas pobierania danych z wiersza: {e}")
+                    print(f"Błąd podczas pobierania danych z: {e}")
         else:
-            print("Nie znaleziono wierszy z wartością wv.")
+            print("Nie znaleziono wv.")
     except Exception as e:
         print(f"Błąd podczas scrapowania: {e}")
     finally:
@@ -95,4 +96,6 @@ while True:
     scrape_data()
     force_commit_if_modified()
     print("Oczekiwanie 60 sekund...")
+    # print("Oczekiwanie 30 sekund...")
     time.sleep(60)
+    # time.sleep(30)
